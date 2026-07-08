@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clasifica los residuos — Guardianes del Mar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="imagenes/tortuga_marina.png" type="image/png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="burbujas" id="burbujas"></div>
+
+<nav class="topnav">
+  <div class="container topnav-inner">
+    <a href="index.html" class="marca">
+      <img src="imagenes/logo.png" alt="">
+      Guardianes del Mar
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="topnav-links" id="topnavLinks">
+      <li><a href="index.html">Inicio</a></li>      <li><a href="clasificar.html" class="activa">Clasificar</a></li>
+      <li><a href="vuela.html">Rescate en el Arrecife</a></li>
+      <li><a href="animales.html">Animales</a></li>
+      <li><a href="agradecimientos.html">Agradecimientos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<button class="sound-toggle silenciado" id="soundToggle" aria-label="Activar sonido" aria-pressed="false">
+  <svg class="icono" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="3 9 3 15 8 15 13 20 13 4 8 9 3 9"></polygon>
+    <path class="onda1" d="M16 8a5 5 0 0 1 0 8"></path>
+    <path class="onda2" d="M19 5a9 9 0 0 1 0 14"></path>
+    <line class="linea-muda" x1="16" y1="8" x2="21" y2="16"></line>
+    <line class="linea-muda" x1="21" y1="8" x2="16" y2="16"></line>
+  </svg>
+</button>
+<audio id="ambienteAudio" src="audio/ambiente-mar.mp3" loop preload="none"></audio>
+
+<section>
+  <div class="container juego">
+    <span class="eyebrow" style="color:var(--sun);">Manos a la obra</span>
+    <div class="titulo-con-audio">
+      <h2>Clasifica los residuos</h2>
+      <button class="btn-icono-escuchar" data-lee="textoClasificar" type="button" aria-label="Escuchar las instrucciones">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="3 9 3 15 8 15 13 20 13 4 8 9 3 9" fill="currentColor" stroke="none"></polygon>
+          <path class="onda-tts onda-tts-1" d="M16.5 8.5a5 5 0 0 1 0 7"></path>
+          <path class="onda-tts onda-tts-2" d="M19.5 6a9 9 0 0 1 0 12"></path>
+        </svg>
+      </button>
+    </div>
+    <p class="lead" id="textoClasificar">¡Hola, Guardián! Toca un objeto de la lista y luego toca la caneca donde crees que va. Si te equivocas no pasa nada, Marino te da una pista para intentarlo de nuevo.</p>
+
+    <div class="guia-intro" id="guiaIntro">
+      <div class="baraja-canecas" aria-hidden="true">
+        <span class="carta-baraja carta-1">
+          <span class="simbolo-caneca simbolo-blanco tam-baraja">
+            <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(0 50 50)"></path><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(120 50 50)"></path><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(240 50 50)"></path></svg>
+          </span>
+        </span>
+        <span class="carta-baraja carta-2">
+          <span class="simbolo-caneca simbolo-verde tam-baraja">
+            <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 92 C18 75 12 32 50 8 C88 32 82 75 50 92 Z"></path></svg>
+          </span>
+        </span>
+        <span class="carta-baraja carta-3">
+          <span class="simbolo-caneca simbolo-negro tam-baraja">
+            <svg viewBox="0 0 100 100" fill="currentColor"><rect x="24" y="14" width="52" height="10" rx="3"></rect><rect x="40" y="5" width="20" height="9" rx="3"></rect><path d="M28 28 H72 L67 92 H33 Z"></path></svg>
+          </span>
+        </span>
+      </div>
+      <p class="guia-titulo">Antes de jugar, aprende qué va en cada caneca</p>
+      <div class="guia-tarjetas">
+        <div class="guia-tarjeta guia-blanco" style="animation-delay:0s;">
+          <span class="simbolo-caneca simbolo-blanco tam-guia" style="margin:0 auto 8px;">
+            <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(0 50 50)"></path><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(120 50 50)"></path><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(240 50 50)"></path></svg>
+          </span>
+          <h4>Blanca</h4>
+          <p>Plástico, papel, cartón, vidrio y metal — limpios y secos.</p>
+        </div>
+        <div class="guia-tarjeta guia-verde" style="animation-delay:0.15s;">
+          <span class="simbolo-caneca simbolo-verde tam-guia" style="margin:0 auto 8px;">
+            <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 92 C18 75 12 32 50 8 C88 32 82 75 50 92 Z"></path></svg>
+          </span>
+          <h4>Verde</h4>
+          <p>Cáscaras y restos de comida.</p>
+        </div>
+        <div class="guia-tarjeta guia-negro" style="animation-delay:0.3s;">
+          <span class="simbolo-caneca simbolo-negro tam-guia" style="margin:0 auto 8px;">
+            <svg viewBox="0 0 100 100" fill="currentColor"><rect x="24" y="14" width="52" height="10" rx="3"></rect><rect x="40" y="5" width="20" height="9" rx="3"></rect><path d="M28 28 H72 L67 92 H33 Z"></path></svg>
+          </span>
+          <h4>Negra</h4>
+          <p>Cosas sucias o usadas que no se pueden reciclar.</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="btnEmpezarJuego" type="button">¡Entendido, a jugar!</button>
+    </div>
+
+    <div class="juego-contenido oculto" id="juegoContenido">
+      <p class="marcador">Clasificados: <span id="marcadorTexto">0</span> / <span id="marcadorTotal">0</span></p>
+
+      <div class="canecas" id="canecas">
+        <button class="caneca" data-categoria="blanco" aria-label="Caneca blanca - aprovechables">
+          <span class="caneca-tapa"></span>
+          <span class="caneca-icono">
+            <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(0 50 50)"></path><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(120 50 50)"></path><path d="M50 6 L65 30 H55 V50 H45 V30 H35 Z" transform="rotate(240 50 50)"></path></svg>
+          </span>
+          <span class="caneca-texto">Blanca<br>Aprovechables</span>
+        </button>
+        <button class="caneca" data-categoria="verde" aria-label="Caneca verde - orgánicos">
+          <span class="caneca-tapa"></span>
+          <span class="caneca-icono">
+            <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 92 C18 75 12 32 50 8 C88 32 82 75 50 92 Z"></path></svg>
+          </span>
+          <span class="caneca-texto">Verde<br>Orgánicos</span>
+        </button>
+        <button class="caneca" data-categoria="negro" aria-label="Caneca negra - no aprovechables">
+          <span class="caneca-tapa"></span>
+          <span class="caneca-icono">
+            <svg viewBox="0 0 100 100" fill="currentColor"><rect x="24" y="14" width="52" height="10" rx="3"></rect><rect x="40" y="5" width="20" height="9" rx="3"></rect><path d="M28 28 H72 L67 92 H33 Z"></path></svg>
+          </span>
+          <span class="caneca-texto">Negra<br>No aprovechables</span>
+        </button>
+      </div>
+
+      <div class="pool-objetos" id="poolObjetos"></div>
+      <p class="mensaje-juego" id="mensajeJuego"></p>
+
+      <div class="juego-completo" id="juegoCompleto">
+        <p style="font-size:1.2rem;text-align:center;">Lo lograste. Ya sabes clasificar como un verdadero Guardián del Mar.</p>
+
+        <div class="diploma-wrap">
+          <p class="lead" style="color:#cfeff0;">Escribe tu nombre y descarga tu diploma para imprimir.</p>
+          <div class="diploma-form">
+            <input type="text" id="nombreDiploma" placeholder="Escribe tu nombre" maxlength="28">
+            <button class="btn btn-secondary" id="generarDiploma">Generar</button>
+          </div>
+          <canvas id="diplomaCanvas" width="1000" height="750"></canvas>
+          <br>
+          <a href="#" class="btn btn-primary" id="descargarDiploma">
+            <svg class="icono" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"></circle><path d="M9 10 6 3M15 10l3-7"></path></svg>
+            Descargar diploma
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="imagenes/tortuga_nadando.png" alt="Marino nadando" style="width:100px;margin:0 auto 12px;">
+  <p>Un proyecto hecho con <span class="corazon">&#9829;</span> para Kylian y todos los futuros Guardianes del Mar.</p>
+  <p class="footer-evento">ExpoCiencia &mdash; Colegio La Nueva Esperanza</p>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/clasificar.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Muy pronto — Guardianes del Mar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="imagenes/tortuga_marina.png" type="image/png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="burbujas" id="burbujas"></div>
+
+<nav class="topnav">
+  <div class="container topnav-inner">
+    <a href="index.html" class="marca">
+      <img src="imagenes/logo.png" alt="">
+      Guardianes del Mar
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="topnav-links" id="topnavLinks">
+      <li><a href="index.html">Inicio</a></li>      <li><a href="clasificar.html">Clasificar</a></li>
+      <li><a href="vuela.html">Rescate en el Arrecife</a></li>
+      <li><a href="animales.html">Animales</a></li>
+      <li><a href="agradecimientos.html">Agradecimientos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<button class="sound-toggle silenciado" id="soundToggle" aria-label="Activar sonido" aria-pressed="false">
+  <svg class="icono" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="3 9 3 15 8 15 13 20 13 4 8 9 3 9"></polygon>
+    <path class="onda1" d="M16 8a5 5 0 0 1 0 8"></path>
+    <path class="onda2" d="M19 5a9 9 0 0 1 0 14"></path>
+    <line class="linea-muda" x1="16" y1="8" x2="21" y2="16"></line>
+    <line class="linea-muda" x1="21" y1="8" x2="16" y2="16"></line>
+  </svg>
+</button>
+<audio id="ambienteAudio" src="audio/ambiente-mar.mp3" loop preload="none"></audio>
+
+<section class="proximamente">
+  <div class="container">
+    <img src="imagenes/tortuga_nadando.png" alt="Marino nadando" id="proximamenteImg">
+    <span class="eyebrow">Muy pronto</span>
+    <h2 id="proximamenteTitulo">Este contenido está en camino</h2>
+    <div class="caja">
+      <p id="proximamenteTexto">Estamos preparando este contenido. ¡Vuelve pronto!</p>
+      <a href="index.html" class="btn btn-primary">Volver al inicio</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Un proyecto hecho con <span class="corazon">&#9829;</span> para Kylian y todos los futuros Guardianes del Mar.</p>
+  <p class="footer-evento">ExpoCiencia &mdash; Colegio La Nueva Esperanza</p>
+</footer>
+
+<script src="js/common.js"></script>
+<script>
+  const parametros = new URLSearchParams(window.location.search);
+  const recurso = parametros.get('recurso');
+  const datos = {
+    cuento: { titulo: 'El cuento animado está en camino', texto: 'Muy pronto podrás ver aquí la aventura de Marino y sus amigos del mar.' },
+    video: { titulo: 'El video educativo está en camino', texto: 'Muy pronto podrás ver aquí de dónde viene la basura del mar y cómo cuidarlo.' },
+    guia: { titulo: 'La guía está en camino', texto: 'Muy pronto podrás descargar aquí la guía para cuidar el mar en casa.' },
+  };
+  if (datos[recurso]) {
+    document.getElementById('proximamenteTitulo').textContent = datos[recurso].titulo;
+    document.getElementById('proximamenteTexto').textContent = datos[recurso].texto;
+  }
+</script>
+</body>
+</html>

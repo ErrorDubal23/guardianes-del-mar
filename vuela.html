@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rescate en el Arrecife — Guardianes del Mar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="imagenes/tortuga_marina.png" type="image/png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="burbujas" id="burbujas"></div>
+
+<nav class="topnav">
+  <div class="container topnav-inner">
+    <a href="index.html" class="marca">
+      <img src="imagenes/logo.png" alt="">
+      Guardianes del Mar
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="topnav-links" id="topnavLinks">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="clasificar.html">Clasificar</a></li>
+      <li><a href="vuela.html" class="activa">Rescate en el Arrecife</a></li>
+      <li><a href="animales.html">Animales</a></li>
+      <li><a href="agradecimientos.html">Agradecimientos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<button class="sound-toggle silenciado" id="soundToggle" aria-label="Activar sonido" aria-pressed="false">
+  <svg class="icono" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="3 9 3 15 8 15 13 20 13 4 8 9 3 9"></polygon>
+    <path class="onda1" d="M16 8a5 5 0 0 1 0 8"></path>
+    <path class="onda2" d="M19 5a9 9 0 0 1 0 14"></path>
+    <line class="linea-muda" x1="16" y1="8" x2="21" y2="16"></line>
+    <line class="linea-muda" x1="21" y1="8" x2="16" y2="16"></line>
+  </svg>
+</button>
+<audio id="ambienteAudio" src="audio/ambiente-mar.mp3" loop preload="none"></audio>
+
+<header class="page-header">
+  <img src="imagenes/pulpo.png" alt="Pulpo">
+  <span class="eyebrow">Juego</span>
+  <div class="titulo-con-audio" style="justify-content:center;">
+    <h1 style="color:var(--ocean-deep);font-size:clamp(1.8rem,6vw,2.6rem);margin-bottom:0;">Rescate en el Arrecife</h1>
+    <button class="btn-icono-escuchar" data-lee="textoArrecife" type="button" aria-label="Escuchar las instrucciones">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="3 9 3 15 8 15 13 20 13 4 8 9 3 9" fill="currentColor" stroke="none"></polygon>
+        <path class="onda-tts onda-tts-1" d="M16.5 8.5a5 5 0 0 1 0 7"></path>
+        <path class="onda-tts onda-tts-2" d="M19.5 6a9 9 0 0 1 0 12"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<section>
+  <div class="container vuela-wrap">
+    <p class="lead" id="textoArrecife">Escribe tu nombre, toca "Jugar" y voltea las cartas de dos en dos para encontrar a los amigos del mar en parejas. Entre menos intentos uses y más rápido termines, mejor será tu puntaje.</p>
+
+    <div class="vuela-registro" id="vuelaRegistro">
+      <form id="formRegistro">
+        <input type="text" id="nombreJugador" placeholder="Escribe tu nombre" maxlength="24" required>
+        <button type="submit" class="btn btn-primary btn-block">Comenzar</button>
+      </form>
+    </div>
+
+    <div id="vuelaJuego" style="display:none;">
+      <p class="vuela-estado" id="saludoJugador"></p>
+      <p class="vuela-estado" id="vuelaEstado"></p>
+
+      <div class="memoria-stats" id="memoriaStats">
+        <div><span class="memoria-stats-numero" id="statPuntos">0</span><span class="memoria-stats-label">Puntos</span></div>
+        <div><span class="memoria-stats-numero" id="statIntentos">0</span><span class="memoria-stats-label">Intentos</span></div>
+        <div><span class="memoria-stats-numero" id="statTiempo">0:00</span><span class="memoria-stats-label">Tiempo</span></div>
+      </div>
+
+      <div class="memoria-grid" id="memoriaGrid"></div>
+
+      <div class="vuela-controles">
+        <button class="btn btn-primary" id="btnJugar">Jugar</button>
+      </div>
+
+      <div class="memoria-completo" id="memoriaCompleto">
+        <img src="imagenes/tortuga_saltando.png" alt="Marino celebrando">
+        <p class="memoria-completo-titulo">¡Arrecife rescatado!</p>
+        <p id="memoriaResumen"></p>
+      </div>
+
+      <div class="ranking-tabla">
+        <h3>Ranking</h3>
+        <div id="rankingLista"></div>
+        <p class="ranking-nota" id="rankingNota"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="imagenes/tortuga_nadando.png" alt="Marino nadando" style="width:100px;margin:0 auto 12px;">
+  <p>Un proyecto hecho con <span class="corazon">&#9829;</span> para Kylian y todos los futuros Guardianes del Mar.</p>
+  <p class="footer-evento">ExpoCiencia &mdash; Colegio La Nueva Esperanza</p>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/vuela.js"></script>
+</body>
+</html>
