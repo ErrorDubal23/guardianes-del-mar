@@ -362,6 +362,19 @@ section {
   width: 100px;
   margin: 0 auto 10px;
 }
+.logos-evento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+.logos-evento img {
+  width: 76px;
+  margin: 0;
+  border-radius: 50%;
+}
+.logos-evento img:first-child { border-radius: 0; width: 66px; }
 
 /* ===== Hero (home) ===== */
 .hero {
@@ -1757,4 +1770,13 @@ footer {
   z-index: 2;
 }
 footer .corazon { color: var(--coral); }
-footer .footer-evento { font-size: 0.8rem; opacity: 0.75; margin-top: 4px; }
+footer .footer-evento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-top: 10px;
+}
+footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius: 50%; }
