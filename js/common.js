@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSonido();
   initBurbujas();
   initEscuchar();
+  initRevelado();
 });
 
 /* ---------- Menú de navegación ---------- */
@@ -165,6 +166,43 @@ function lanzarConfeti() {
     document.body.appendChild(pieza);
     setTimeout(() => pieza.remove(), 4000);
   }
+}
+
+/* ---------- Animaciones de entrada al hacer scroll ---------- */
+function initRevelado() {
+  if (!('IntersectionObserver' in window)) return;
+
+  const SELECTOR_INDIVIDUAL = [
+    '.hero-texto', '.hero-imagen', 'header.page-header',
+    '.cuento-card', '.cancion-viva', '.video-feature', '.guia-preview',
+    '.adopta-teaser', '.agradecimientos-texto', '.vuela-registro',
+  ].join(',');
+
+  document.querySelectorAll(SELECTOR_INDIVIDUAL).forEach((el) => {
+    el.classList.add('reveal');
+  });
+
+  const SELECTOR_GRUPOS = '.juegos-grid, .animales-grid, .equipo-grid, .guia-tarjetas';
+  document.querySelectorAll(SELECTOR_GRUPOS).forEach((grupo) => {
+    Array.from(grupo.children).forEach((hijo, i) => {
+      hijo.classList.add('reveal');
+      hijo.style.transitionDelay = Math.min(i * 0.08, 0.4) + 's';
+    });
+  });
+
+  const elementos = document.querySelectorAll('.reveal');
+  if (!elementos.length) return;
+
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('visible');
+        observador.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+  elementos.forEach((el) => observador.observe(el));
 }
 
 /* ---------- Identificador de dispositivo ---------- */

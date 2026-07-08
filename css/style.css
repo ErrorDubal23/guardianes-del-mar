@@ -142,6 +142,24 @@ section {
   font-size: 1.1rem;
 }
 
+/* ===== Animaciones de entrada al hacer scroll ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ===== Iconos SVG (reemplazan emojis) ===== */
 .icono {
   display: inline-block;
@@ -181,23 +199,23 @@ section {
 }
 .btn-block { width: 100%; }
 
-/* ===== Sonido flotante ===== */
+/* ===== Sonido (integrado en la barra de navegación) ===== */
 .sound-toggle {
-  position: fixed;
-  bottom: 18px;
-  right: 18px;
-  z-index: 110;
-  width: 48px;
-  height: 48px;
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
-  background: white;
-  box-shadow: var(--shadow-soft);
+  background: var(--ocean-pale);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--ocean-deep);
+  transition: transform 0.15s ease, background 0.15s ease;
 }
+.sound-toggle:active { transform: scale(0.9); }
+.sound-toggle:not(.silenciado) { background: var(--ocean-light); color: white; }
 .sound-toggle .linea-muda { display: none; }
 .sound-toggle.silenciado .onda1,
 .sound-toggle.silenciado .onda2 { display: none; }
@@ -219,18 +237,25 @@ section {
   height: var(--nav-height);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
 }
 .marca {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-right: auto;
   font-family: var(--font-heading);
   font-weight: 700;
   color: var(--ocean-deep);
   font-size: 1.05rem;
 }
 .marca img { width: 34px; height: 34px; }
+
+.topnav-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
 .menu-toggle {
   display: flex;
@@ -1038,7 +1063,9 @@ section {
   text-align: center;
   position: relative;
   overflow: hidden;
+  transition: transform 0.15s ease;
 }
+.guia-preview:active { transform: scale(0.98); }
 .guia-preview::before {
   content: '';
   position: absolute;
@@ -1072,15 +1099,21 @@ section {
   gap: 18px;
   max-width: 560px;
   margin: 0 auto;
-  background: white;
+  background: linear-gradient(160deg, #ffffff 0%, var(--ocean-pale) 160%);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   padding: 18px 22px;
+  transition: transform 0.15s ease;
 }
+.adopta-teaser:active { transform: scale(0.98); }
 .adopta-teaser img { width: 70px; flex-shrink: 0; }
 .adopta-teaser .texto { flex: 1; }
 .adopta-teaser h3 { margin: 0 0 4px; color: var(--ocean-deep); font-size: 1.1rem; }
 .adopta-teaser p { margin: 0; font-size: 0.9rem; color: #4a6b74; }
+.adopta-teaser-flecha {
+  flex-shrink: 0;
+  color: var(--ocean);
+}
 .adopta-teaser-progreso {
   display: inline-block;
   margin-top: 8px;
@@ -1182,6 +1215,8 @@ section {
 .juego-card:active .baraja-mini .carta-1 { transform: rotate(-20deg) translate(-28px, 0); }
 .juego-card:hover .baraja-mini .carta-3,
 .juego-card:active .baraja-mini .carta-3 { transform: rotate(20deg) translate(28px, 0); }
+.carta-baraja img { width: 100%; height: 100%; object-fit: contain; }
+.vuela-registro .baraja-mini { margin-bottom: 14px; }
 
 /* Símbolo directo sobre el cuerpo de la caneca dentro del juego (sin insignia propia) */
 .caneca-icono { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; }
