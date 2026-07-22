@@ -81,23 +81,40 @@
     <span class="eyebrow">Paso 1</span>
     <h2>En casa, cada gesto cuenta</h2>
     <p class="guia-pasos">El cuidado del mar empieza mucho antes de llegar a la playa: empieza en tu propia casa.</p>
-    <div class="consejo-grid consejo-grid-3">
-      <div class="consejo-card">
-        <img src="imagenes/icono_gota.png" alt="">
-        <h3>Cierra el grifo</h3>
-        <p>Ciérralo mientras te cepillas los dientes o te enjabonas las manos. Cada gota que ahorras es una gota que el mar agradece.</p>
+
+    <div class="carrusel-envoltura">
+      <button class="carrusel-flecha" type="button" data-target="carruselCasa" data-dir="-1" aria-label="Ver consejo anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+      </button>
+      <div class="consejo-carrusel" id="carruselCasa">
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-2" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11a4 4 0 0 1 4 4"></path><path d="M3 7V4"></path><path d="M12 13c0 2.5-2 4.5-2 4.5s-2-2-2-4.5a2 2 0 0 1 4 0z"></path></svg>
+          </span>
+          <h3>Cierra el grifo</h3>
+          <p>Ciérralo mientras te cepillas los dientes o te enjabonas las manos. Cada gota que ahorras es una gota que el mar agradece.</p>
+        </div>
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-3" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"></path><path d="M10 11v6M14 11v6"></path></svg>
+          </span>
+          <h3>Separa tu basura</h3>
+          <p>Aprende qué va en cada caneca. Así ayudas a que la basura no termine flotando en el mar.</p>
+        </div>
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-1" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4"></path><path d="M10 2v3.3c0 .5-.2 1-.6 1.4L8 8.1c-.6.6-1 1.5-1 2.4V19a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3v-8.5c0-.9-.4-1.8-1-2.4l-1.4-1.4a2 2 0 0 1-.6-1.4V2"></path><path d="M7.5 13h9"></path></svg>
+          </span>
+          <h3>Reutiliza tu botella</h3>
+          <p>Lleva siempre tu propia botella de agua. Menos plástico nuevo es menos plástico en el mar.</p>
+        </div>
       </div>
-      <div class="consejo-card">
-        <img src="imagenes/caneca_verde.png" alt="">
-        <h3>Separa tu basura</h3>
-        <p>Aprende qué va en cada caneca. Así ayudas a que la basura no termine flotando en el mar.</p>
-      </div>
-      <div class="consejo-card">
-        <img src="imagenes/obj_botella.png" alt="">
-        <h3>Reutiliza tu botella</h3>
-        <p>Lleva siempre tu propia botella de agua. Menos plástico nuevo es menos plástico en el mar.</p>
-      </div>
+      <button class="carrusel-flecha" type="button" data-target="carruselCasa" data-dir="1" aria-label="Ver siguiente consejo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </button>
     </div>
+    <div class="carrusel-puntos" data-for="carruselCasa"></div>
+    <p class="carrusel-ayuda">Desliza las tarjetas o toca las flechas para ver los tres consejos</p>
   </div>
 </section>
 
@@ -110,28 +127,47 @@
     <span class="eyebrow">Paso 2</span>
     <h2>En la playa, sé un guardián</h2>
     <p class="guia-pasos">Cuando visites el mar, recuerda que estás entrando a la casa de muchos animales.</p>
-    <div class="consejo-grid">
-      <div class="consejo-card">
-        <img src="imagenes/obj_envoltorio.png" alt="">
-        <h3>Recoge lo que encuentres</h3>
-        <p>Antes de irte, recoge tu basura. Si ves otra en el camino, guárdala también: una bolsita pequeña puede salvar muchos peces.</p>
+
+    <div class="carrusel-envoltura">
+      <button class="carrusel-flecha" type="button" data-target="carruselPlaya" data-dir="-1" aria-label="Ver consejo anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+      </button>
+      <div class="consejo-carrusel" id="carruselPlaya">
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-4" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>
+          </span>
+          <h3>Recoge lo que encuentres</h3>
+          <p>Antes de irte, recoge tu basura. Si ves otra en el camino, guárdala también: una bolsita pequeña puede salvar muchos peces.</p>
+        </div>
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-5" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 1 8-8"></path><path d="M12 20a4 4 0 1 1 4-4"></path><path d="M12 20a1.5 1.5 0 1 1 0-3"></path></svg>
+          </span>
+          <h3>No te lleves conchas ni corales</h3>
+          <p>Las conchas y los corales son la casa de animales muy pequeños. Obsérvalos, tómales una foto, pero déjalos en su lugar.</p>
+        </div>
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-6" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="3.2"></circle><path d="M12 2.5v1.4M12 14v1.4M5.5 9H4M20 9h-1.5M6.6 3.6l1 1M16.4 3.6l-1 1"></path><path d="M7 15c1 3 3 4 5 4s4-1 5-4"></path></svg>
+          </span>
+          <h3>Usa protector amigable con el coral</h3>
+          <p>Pídele a un adulto un protector solar "reef safe". Algunos protectores tienen químicos que dañan a los corales cuando nadamos.</p>
+        </div>
+        <div class="consejo-card">
+          <span class="consejo-icono consejo-color-2" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>
+          </span>
+          <h3>Observa sin tocar</h3>
+          <p>Los animales del mar se asustan con las manos curiosas. Admíralos de lejos, como buenos vecinos del mar.</p>
+        </div>
       </div>
-      <div class="consejo-card">
-        <img src="imagenes/cangrejo.png" alt="">
-        <h3>No te lleves conchas ni corales</h3>
-        <p>Las conchas y los corales son la casa de animales muy pequeños. Obsérvalos, tómales una foto, pero déjalos en su lugar.</p>
-      </div>
-      <div class="consejo-card">
-        <img src="imagenes/icono_gota.png" alt="">
-        <h3>Usa protector amigable con el coral</h3>
-        <p>Pídele a un adulto un protector solar "reef safe". Algunos protectores tienen químicos que dañan a los corales cuando nadamos.</p>
-      </div>
-      <div class="consejo-card">
-        <img src="imagenes/delfin.png" alt="">
-        <h3>Observa sin tocar</h3>
-        <p>Los animales del mar se asustan con las manos curiosas. Admíralos de lejos, como buenos vecinos del mar.</p>
-      </div>
+      <button class="carrusel-flecha" type="button" data-target="carruselPlaya" data-dir="1" aria-label="Ver siguiente consejo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </button>
     </div>
+    <div class="carrusel-puntos" data-for="carruselPlaya"></div>
+    <p class="carrusel-ayuda">Desliza las tarjetas o toca las flechas para ver los cuatro consejos</p>
   </div>
 </section>
 

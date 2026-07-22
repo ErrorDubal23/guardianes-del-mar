@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBurbujas();
   initEscuchar();
   initRevelado();
+  initCarruseles();
 });
 
 /* ---------- Menú de navegación ---------- */
@@ -176,14 +177,14 @@ function initRevelado() {
     '.hero-texto', '.hero-imagen', 'header.page-header',
     '.cuento-card', '.cancion-viva', '.video-feature', '.guia-preview',
     '.adopta-teaser', '.agradecimientos-texto', '.vuela-registro',
-    '.curiosidad-marino', '.promesas-card',
+    '.curiosidad-marino', '.promesas-card', '.carrusel-envoltura',
   ].join(',');
 
   document.querySelectorAll(SELECTOR_INDIVIDUAL).forEach((el) => {
     el.classList.add('reveal');
   });
 
-  const SELECTOR_GRUPOS = '.juegos-grid, .animales-grid, .equipo-grid, .guia-tarjetas, .consejo-grid';
+  const SELECTOR_GRUPOS = '.juegos-grid, .animales-grid, .equipo-grid, .guia-tarjetas';
   document.querySelectorAll(SELECTOR_GRUPOS).forEach((grupo) => {
     Array.from(grupo.children).forEach((hijo, i) => {
       hijo.classList.add('reveal');
@@ -204,6 +205,48 @@ function initRevelado() {
   }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
 
   elementos.forEach((el) => observador.observe(el));
+}
+
+/* ---------- Carruseles de tarjetas (consejos deslizables) ---------- */
+function initCarruseles() {
+  document.querySelectorAll('.consejo-carrusel').forEach((carrusel) => {
+    const tarjetas = Array.from(carrusel.children);
+    if (!tarjetas.length) return;
+
+    document.querySelectorAll('.carrusel-flecha[data-target="' + carrusel.id + '"]').forEach((flecha) => {
+      flecha.addEventListener('click', () => {
+        const paso = tarjetas[0].getBoundingClientRect().width + 16;
+        carrusel.scrollBy({ left: paso * Number(flecha.dataset.dir), behavior: 'smooth' });
+      });
+    });
+
+    const puntosWrap = document.querySelector('.carrusel-puntos[data-for="' + carrusel.id + '"]');
+    if (!puntosWrap) return;
+
+    tarjetas.forEach((_, i) => {
+      const punto = document.createElement('span');
+      punto.className = 'punto' + (i === 0 ? ' activo' : '');
+      puntosWrap.appendChild(punto);
+    });
+    const puntos = Array.from(puntosWrap.children);
+
+    const actualizarPuntos = () => {
+      const centro = carrusel.scrollLeft + carrusel.clientWidth / 2;
+      let masCercano = 0;
+      let distanciaMin = Infinity;
+      tarjetas.forEach((tarjeta, i) => {
+        const distancia = Math.abs((tarjeta.offsetLeft + tarjeta.offsetWidth / 2) - centro);
+        if (distancia < distanciaMin) { distanciaMin = distancia; masCercano = i; }
+      });
+      puntos.forEach((p, i) => p.classList.toggle('activo', i === masCercano));
+    };
+
+    let cuadro = null;
+    carrusel.addEventListener('scroll', () => {
+      if (cuadro) return;
+      cuadro = requestAnimationFrame(() => { actualizarPuntos(); cuadro = null; });
+    }, { passive: true });
+  });
 }
 
 /* ---------- Identificador de dispositivo ---------- */

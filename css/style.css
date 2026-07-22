@@ -1822,32 +1822,61 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   margin: 0 auto 6px;
   text-align: center;
 }
-.consejo-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  max-width: 780px;
+/* ---- Carrusel de consejos: tarjetas que se deslizan ---- */
+.carrusel-envoltura {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 920px;
   margin: 0 auto;
 }
-@media (min-width: 620px) {
-  .consejo-grid { grid-template-columns: repeat(2, 1fr); }
+.consejo-carrusel {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 8px;
+  padding: 10px 8px 26px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-@media (min-width: 960px) {
-  .consejo-grid.consejo-grid-3 { grid-template-columns: repeat(3, 1fr); }
-}
+.consejo-carrusel::-webkit-scrollbar { display: none; }
+
 .consejo-card {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: 74vw;
+  max-width: 250px;
   background: white;
   border-radius: var(--radius-lg);
-  padding: 22px 20px;
+  padding: 26px 20px;
   text-align: center;
   box-shadow: var(--shadow-soft);
 }
-.consejo-card img {
-  width: 58px;
-  height: 58px;
-  object-fit: contain;
-  margin: 0 auto 12px;
+@media (min-width: 700px) {
+  .consejo-card { width: 260px; }
 }
+.consejo-icono {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  color: white;
+  flex-shrink: 0;
+}
+.consejo-icono svg { width: 30px; height: 30px; }
+.consejo-color-1 { background: var(--ocean-deep); }
+.consejo-color-2 { background: var(--ocean); }
+.consejo-color-3 { background: var(--leaf); }
+.consejo-color-4 { background: var(--coral); }
+.consejo-color-5 { background: #C77DBE; }
+.consejo-color-6 { background: #E08E3E; }
+
 .consejo-card h3 {
   color: var(--ocean-deep);
   font-size: 1.05rem;
@@ -1857,6 +1886,49 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   margin: 0;
   font-size: 0.92rem;
   color: #4a6b74;
+}
+
+.carrusel-flecha {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  box-shadow: var(--shadow-soft);
+  color: var(--ocean-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.carrusel-flecha:active { transform: scale(0.88); }
+.carrusel-flecha:disabled { opacity: 0.35; pointer-events: none; }
+.carrusel-flecha svg { width: 18px; height: 18px; }
+
+.carrusel-puntos {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: -14px 0 6px;
+}
+.carrusel-puntos .punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ocean-pale);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.carrusel-puntos .punto.activo {
+  background: var(--ocean);
+  transform: scale(1.35);
+}
+
+.carrusel-ayuda {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6a8a92;
+  margin: 0 0 22px;
 }
 
 /* ---- Secreto de marinero (dato curioso del agua de lastre) ---- */
