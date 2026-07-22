@@ -177,30 +177,43 @@ function initDiploma() {
     }
 
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+
     ctx.fillStyle = '#0B4F6C';
-    ctx.font = '700 42px Fredoka, sans-serif';
-    ctx.fillText('Diploma de Guardián del Mar', canvas.width / 2, 220);
+    ctx.font = '700 40px Fredoka, sans-serif';
+    ctx.fillText('Diploma de Guardián del Mar', canvas.width / 2, 210);
 
-    ctx.font = '500 26px Baloo 2, sans-serif';
-    ctx.fillStyle = '#123B47';
-    ctx.fillText('Se otorga con orgullo a', canvas.width / 2, 300);
+    ctx.font = '500 24px "Baloo 2", sans-serif';
+    ctx.fillStyle = '#0891A8';
+    ctx.fillText('Se otorga con orgullo a', canvas.width / 2, 275);
 
-    ctx.font = '700 54px Fredoka, sans-serif';
-    ctx.fillStyle = '#FF6B6B';
-    ctx.fillText(nombre, canvas.width / 2, 390);
+    // El nombre se encoge automáticamente si es muy largo, para no invadir el marco
+    let tamNombre = 56;
+    const anchoMaximoNombre = 760;
+    ctx.font = `700 ${tamNombre}px Fredoka, sans-serif`;
+    while (ctx.measureText(nombre).width > anchoMaximoNombre && tamNombre > 26) {
+      tamNombre -= 2;
+      ctx.font = `700 ${tamNombre}px Fredoka, sans-serif`;
+    }
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#0B4F6C';
+    ctx.strokeText(nombre, canvas.width / 2, 385);
+    ctx.fillStyle = '#FFC93C';
+    ctx.fillText(nombre, canvas.width / 2, 385);
 
-    ctx.font = '500 22px Baloo 2, sans-serif';
+    ctx.font = '500 22px "Baloo 2", sans-serif';
     ctx.fillStyle = '#123B47';
     const lineasDescripcion = ajustarLineas(ctx, 'por aprender a cuidar el mar y clasificar los residuos', 760);
-    let yDescripcion = 460;
+    let yDescripcion = 452;
     lineasDescripcion.forEach((linea) => {
       ctx.fillText(linea, canvas.width / 2, yDescripcion);
-      yDescripcion += 36;
+      yDescripcion += 34;
     });
 
     const fecha = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
-    ctx.font = '500 18px Baloo 2, sans-serif';
-    ctx.fillText(fecha, canvas.width / 2, yDescripcion + 40);
+    ctx.font = '500 18px "Baloo 2", sans-serif';
+    ctx.fillStyle = '#4a6b74';
+    ctx.fillText(fecha, canvas.width / 2, yDescripcion + 34);
   }
 
   marco.onload = dibujarDiploma;

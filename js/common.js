@@ -175,7 +175,8 @@ function initRevelado() {
 
   const SELECTOR_INDIVIDUAL = [
     '.hero-texto', '.hero-imagen', 'header.page-header',
-    '.cuento-card', '.cancion-viva', '.video-feature', '.guia-preview',
+    '.problema-texto', '.guia-destacada',
+    '.cuento-card', '.cancion-viva', '.video-feature',
     '.adopta-teaser', '.agradecimientos-texto', '.vuela-registro',
     '.curiosidad-marino', '.promesas-card', '.carrusel-envoltura',
   ].join(',');

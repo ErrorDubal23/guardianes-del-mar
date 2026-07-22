@@ -328,6 +328,7 @@ section {
   .topnav-links li a.activa {
     background: var(--ocean-pale);
   }
+  .topnav-links li.solo-movil { display: none; }
 }
 
 /* ===== Burbujas flotantes ===== */
@@ -449,6 +450,18 @@ section {
   margin: 0 auto 1.8rem;
 }
 .hero .btn-primary { margin-top: 4px; }
+.hero-creditos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 0.76rem;
+  color: var(--ocean-deep);
+  opacity: 0.7;
+}
+.hero-creditos img { width: 22px; height: 22px; margin: 0; border-radius: 50%; flex-shrink: 0; }
+.hero-creditos img:first-child { border-radius: 4px; }
 
 @media (min-width: 900px) {
   .hero-grid {
@@ -463,6 +476,7 @@ section {
   .hero .titulo-con-audio { justify-content: flex-start; }
   .hero .subtitulo { margin: 0 0 1.8rem; }
   .hero .mascota { width: 300px; margin: 0; }
+  .hero-creditos { justify-content: flex-start; }
 }
 
 
@@ -1052,45 +1066,71 @@ section {
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* ===== Preview de guía ===== */
-.guia-preview {
-  max-width: 460px;
-  margin: 0 auto;
-  background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  padding: 26px 24px;
-  text-align: center;
+/* ===== El problema + guía destacada (home) ===== */
+.problema-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+.problema-texto { text-align: center; }
+@media (min-width: 900px) {
+  .problema-grid { flex-direction: row; align-items: center; gap: 50px; }
+  .problema-texto { flex: 1; text-align: left; }
+  .problema-texto .eyebrow { text-align: left; }
+  .problema-texto .titulo-con-audio { justify-content: flex-start; }
+  .problema-texto .lead { text-align: left; margin: 0; max-width: none; }
+}
+
+.guia-destacada {
   position: relative;
-  overflow: hidden;
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  background: linear-gradient(165deg, white 0%, var(--ocean-pale) 145%);
+  border-radius: var(--radius-lg);
+  padding: 32px 26px 26px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
   transition: transform 0.15s ease;
 }
-.guia-preview:active { transform: scale(0.98); }
-.guia-preview::before {
-  content: '';
+.guia-destacada:active { transform: scale(0.98); }
+.guia-destacada-cinta {
   position: absolute;
-  top: 0; right: 0;
-  width: 0; height: 0;
-  border-style: solid;
-  border-width: 0 34px 34px 0;
-  border-color: transparent var(--sun) transparent transparent;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--sun);
+  color: var(--ocean-deep);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(11, 79, 108, 0.2);
+  white-space: nowrap;
 }
-.guia-preview img { width: 76px; margin: 0 auto 12px; }
-.guia-lineas {
-  margin: 16px auto;
-  max-width: 260px;
-  text-align: left;
+.guia-destacada-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto 12px;
 }
-.guia-lineas span {
-  display: block;
-  height: 10px;
-  border-radius: 6px;
-  background: var(--ocean-pale);
+.guia-destacada-icono img { width: 84px; }
+.guia-destacada h3 {
+  color: var(--ocean-deep);
+  font-size: 1.2rem;
   margin-bottom: 8px;
 }
-.guia-lineas span:nth-child(1) { width: 100%; }
-.guia-lineas span:nth-child(2) { width: 90%; }
-.guia-lineas span:nth-child(3) { width: 70%; }
+.guia-destacada p {
+  font-size: 0.9rem;
+  color: #4a6b74;
+  margin-bottom: 20px;
+}
+.guia-destacada .btn { width: 100%; pointer-events: none; }
 
 /* ===== Adopta (teaser en home) ===== */
 .adopta-teaser {
@@ -2049,4 +2089,275 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   body { background: white; padding-top: 0; }
   section { padding: 14px 0; }
   .curiosidad-marino, .consejo-card, .promesas-card { box-shadow: none; border: 1.5px solid var(--ocean-pale); }
+}
+
+/* ===== Cuento interactivo (cuento.html) ===== */
+.cuento-libro {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.cuento-escena { display: none; }
+.cuento-escena.activa {
+  display: block;
+  animation: cuento-aparecer 0.45s ease;
+}
+@keyframes cuento-aparecer {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cuento-marco {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 40px 22px 26px;
+  margin-bottom: 20px;
+}
+.fondo-1 { background: linear-gradient(160deg, #FFF8E7 0%, var(--ocean-pale) 100%); }
+.fondo-2 { background: linear-gradient(160deg, #F2EEE2 0%, #E4E9DC 100%); }
+.fondo-3 { background: linear-gradient(160deg, var(--ocean-pale) 0%, #ffffff 100%); }
+.fondo-4 { background: linear-gradient(160deg, var(--ocean-pale) 0%, #d7f0ee 100%); }
+.fondo-5 { background: linear-gradient(160deg, #eef2df 0%, var(--ocean-pale) 100%); }
+.fondo-6 { background: linear-gradient(160deg, #FFF4DD 0%, var(--ocean-pale) 100%); }
+.fondo-7 { background: linear-gradient(160deg, var(--ocean-pale) 0%, #FFF8E7 100%); }
+
+.cuento-numero {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  color: var(--ocean-deep);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+}
+.cuento-marco h3 {
+  text-align: center;
+  color: var(--ocean-deep);
+  font-size: 1.25rem;
+  margin: 0 0 20px;
+}
+
+.cuento-personajes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 20px;
+  min-height: 130px;
+  margin-bottom: 8px;
+}
+.cuento-personaje { position: relative; text-align: center; }
+.cuento-personaje img {
+  width: 84px;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 6px 10px rgba(11, 79, 108, 0.18));
+}
+.cuento-personaje-nombre {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ocean-deep);
+  margin-top: 4px;
+}
+
+.burbuja-dialogo {
+  position: relative;
+  display: inline-block;
+  background: white;
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 10px;
+  max-width: 150px;
+}
+.burbuja-dialogo::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  border-width: 8px 7px 0;
+  border-style: solid;
+  border-color: white transparent transparent;
+}
+
+.icono-criatura {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin: 0 auto;
+  box-shadow: var(--shadow-soft);
+  flex-shrink: 0;
+}
+.icono-criatura svg { width: 26px; height: 26px; }
+
+.cuento-narrador {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.02rem;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* ---- Escena 2: basura interactiva ---- */
+.cuento-basura-fila {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 6px 0 18px;
+  flex-wrap: wrap;
+}
+.cuento-basura {
+  border: none;
+  background: white;
+  border-radius: 16px;
+  padding: 12px 10px 10px;
+  width: 92px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease;
+}
+.cuento-basura:active { transform: scale(0.94); }
+.cuento-basura img { width: 36px; height: 36px; object-fit: contain; }
+.cuento-basura .icono-criatura { width: 36px; height: 36px; }
+.cuento-basura .icono-criatura svg { width: 18px; height: 18px; }
+.cuento-basura .etiqueta { font-size: 0.72rem; font-weight: 700; color: var(--ocean-deep); }
+.cuento-basura-info {
+  display: none;
+  max-width: 540px;
+  margin: 0 auto 12px;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4a6b74;
+  border-left: 5px solid var(--coral);
+  box-shadow: var(--shadow-soft);
+}
+.cuento-basura-info.activa { display: block; animation: cuento-aparecer 0.3s ease; }
+
+/* ---- Escena 3: los seis Guardianes ---- */
+.guardianes-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto 4px;
+}
+@media (min-width: 600px) {
+  .guardianes-mini-grid { grid-template-columns: repeat(6, 1fr); }
+}
+.guardian-mini {
+  border: none;
+  background: white;
+  border-radius: 16px;
+  padding: 12px 6px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.guardian-mini .equipo-avatar { width: 44px; height: 44px; font-size: 1.05rem; margin: 0; }
+.guardian-mini .nombre { font-size: 0.7rem; font-weight: 700; color: var(--ocean-deep); }
+.guardian-mini-frase {
+  display: none;
+  max-width: 540px;
+  margin: 16px auto 0;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--ink);
+  font-weight: 600;
+  border-left: 5px solid var(--ocean);
+  box-shadow: var(--shadow-soft);
+}
+.guardian-mini-frase.activa { display: block; animation: cuento-aparecer 0.3s ease; }
+
+/* ---- Escena 4: enlace hacia la guía ---- */
+.cuento-enlace-guia {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px auto 0;
+  padding: 10px 18px;
+  background: white;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  color: var(--ocean-deep);
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+/* ---- Escena 5: el río (antes / después) ---- */
+.rio-escenario {
+  position: relative;
+  height: 120px;
+  max-width: 480px;
+  margin: 0 auto 16px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.rio-capa {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease;
+}
+.rio-capa img { width: 60px; }
+.rio-capa-sucio { background: linear-gradient(160deg, #c9d18a, #8a9c5c); }
+.rio-capa-limpio { background: linear-gradient(160deg, var(--ocean-light), var(--ocean)); opacity: 0; }
+.rio-escenario.limpio .rio-capa-sucio { opacity: 0; }
+.rio-escenario.limpio .rio-capa-limpio { opacity: 1; }
+.rio-toggle-btn { display: flex; margin: 0 auto; }
+
+/* ---- Paginador del cuento ---- */
+.cuento-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+.cuento-contador {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--ocean-deep);
+  font-size: 0.95rem;
+  min-width: 116px;
+  text-align: center;
+}
+.cuento-final-cta {
+  text-align: center;
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
 }
