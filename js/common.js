@@ -176,13 +176,14 @@ function initRevelado() {
     '.hero-texto', '.hero-imagen', 'header.page-header',
     '.cuento-card', '.cancion-viva', '.video-feature', '.guia-preview',
     '.adopta-teaser', '.agradecimientos-texto', '.vuela-registro',
+    '.curiosidad-marino', '.promesas-card',
   ].join(',');
 
   document.querySelectorAll(SELECTOR_INDIVIDUAL).forEach((el) => {
     el.classList.add('reveal');
   });
 
-  const SELECTOR_GRUPOS = '.juegos-grid, .animales-grid, .equipo-grid, .guia-tarjetas';
+  const SELECTOR_GRUPOS = '.juegos-grid, .animales-grid, .equipo-grid, .guia-tarjetas, .consejo-grid';
   document.querySelectorAll(SELECTOR_GRUPOS).forEach((grupo) => {
     Array.from(grupo.children).forEach((hijo, i) => {
       hijo.classList.add('reveal');
