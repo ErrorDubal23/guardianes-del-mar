@@ -1029,7 +1029,8 @@ section {
   box-shadow: var(--shadow-soft);
   border: 4px solid white;
 }
-.video-marco-nuevo iframe {
+.video-marco-nuevo iframe,
+.video-marco-nuevo video {
   width: 100%;
   height: 100%;
   border: 0;
@@ -2095,6 +2096,7 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
 .cuento-libro {
   max-width: 860px;
   margin: 0 auto;
+  scroll-margin-top: var(--nav-height);
 }
 .cuento-escena { display: none; }
 .cuento-escena.activa {
@@ -2145,68 +2147,6 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   margin: 0 0 20px;
 }
 
-.cuento-personajes {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 20px;
-  min-height: 130px;
-  margin-bottom: 8px;
-}
-.cuento-personaje { position: relative; text-align: center; }
-.cuento-personaje img {
-  width: 84px;
-  display: block;
-  margin: 0 auto;
-  filter: drop-shadow(0 6px 10px rgba(11, 79, 108, 0.18));
-}
-.cuento-personaje-nombre {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--ocean-deep);
-  margin-top: 4px;
-}
-
-.burbuja-dialogo {
-  position: relative;
-  display: inline-block;
-  background: white;
-  color: var(--ink);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 14px;
-  box-shadow: var(--shadow-soft);
-  margin-bottom: 10px;
-  max-width: 150px;
-}
-.burbuja-dialogo::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -7px;
-  transform: translateX(-50%);
-  border-width: 8px 7px 0;
-  border-style: solid;
-  border-color: white transparent transparent;
-}
-
-.icono-criatura {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  margin: 0 auto;
-  box-shadow: var(--shadow-soft);
-  flex-shrink: 0;
-}
-.icono-criatura svg { width: 26px; height: 26px; }
-
 .cuento-narrador {
   max-width: 600px;
   margin: 0 auto;
@@ -2216,87 +2156,86 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   color: var(--ink);
 }
 
-/* ---- Escena 2: basura interactiva ---- */
-.cuento-basura-fila {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin: 6px 0 18px;
-  flex-wrap: wrap;
+/* ---- Páginas del librito (escenas 1-6) ---- */
+.pagina-libro {
+  padding-bottom: 48px;
 }
-.cuento-basura {
-  border: none;
-  background: white;
-  border-radius: 16px;
-  padding: 12px 10px 10px;
-  width: 92px;
-  box-shadow: var(--shadow-soft);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  transition: transform 0.15s ease;
+.pagina-ilustracion-marco {
+  background: linear-gradient(155deg, var(--ocean-deep), var(--ocean));
+  border-radius: 30px;
+  padding: 10px;
+  margin: 0 0 18px;
+  box-shadow: 0 8px 18px rgba(11, 79, 108, 0.3);
 }
-.cuento-basura:active { transform: scale(0.94); }
-.cuento-basura img { width: 36px; height: 36px; object-fit: contain; }
-.cuento-basura .icono-criatura { width: 36px; height: 36px; }
-.cuento-basura .icono-criatura svg { width: 18px; height: 18px; }
-.cuento-basura .etiqueta { font-size: 0.72rem; font-weight: 700; color: var(--ocean-deep); }
-.cuento-basura-info {
-  display: none;
-  max-width: 540px;
-  margin: 0 auto 12px;
-  background: white;
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #4a6b74;
-  border-left: 5px solid var(--coral);
-  box-shadow: var(--shadow-soft);
+.pagina-ilustracion {
+  width: 100%;
+  border-radius: 22px;
+  display: block;
+  box-shadow:
+    inset 0 10px 22px rgba(0, 0, 0, 0.55),
+    inset 0 -4px 10px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
-.cuento-basura-info.activa { display: block; animation: cuento-aparecer 0.3s ease; }
+.pagina-libro::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M0,12 Q25,0 50,12 T100,12 T150,12 T200,12 L200,24 L0,24 Z' fill='%235FD1CD' fill-opacity='0.4'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 200px 24px;
+  pointer-events: none;
+}
 
-/* ---- Escena 3: los seis Guardianes ---- */
-.guardianes-mini-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 480px;
-  margin: 0 auto 4px;
+.pagina-texto {
+  max-width: 620px;
+  margin: 18px auto 0;
+  text-align: left;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--ink);
 }
-@media (min-width: 600px) {
-  .guardianes-mini-grid { grid-template-columns: repeat(6, 1fr); }
+.pagina-texto::first-letter {
+  font-family: var(--font-heading);
+  font-size: 2.7em;
+  font-weight: 700;
+  color: var(--ocean);
+  float: left;
+  line-height: 0.82;
+  padding: 4px 10px 0 2px;
 }
-.guardian-mini {
-  border: none;
-  background: white;
-  border-radius: 16px;
-  padding: 12px 6px;
-  box-shadow: var(--shadow-soft);
-  text-align: center;
+
+/* ---- Escena 3: mensajes de los seis Guardianes (estilo chat) ---- */
+.chat-guardianes {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
 }
-.guardian-mini .equipo-avatar { width: 44px; height: 44px; font-size: 1.05rem; margin: 0; }
-.guardian-mini .nombre { font-size: 0.7rem; font-weight: 700; color: var(--ocean-deep); }
-.guardian-mini-frase {
-  display: none;
-  max-width: 540px;
-  margin: 16px auto 0;
+.chat-mensaje {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.chat-avatar {
+  width: 34px;
+  height: 34px;
+  font-size: 0.85rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+.chat-burbuja {
   background: white;
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  text-align: center;
-  font-size: 0.92rem;
-  color: var(--ink);
-  font-weight: 600;
-  border-left: 5px solid var(--ocean);
+  border-radius: 14px;
+  border-top-left-radius: 4px;
+  padding: 6px 12px;
   box-shadow: var(--shadow-soft);
 }
-.guardian-mini-frase.activa { display: block; animation: cuento-aparecer 0.3s ease; }
+.chat-nombre { display: block; font-size: 0.76rem; font-weight: 700; color: var(--ocean-deep); margin-top: 4px; }
+.chat-burbuja p { margin: 0 0 5px; font-size: 0.85rem; color: var(--ink); line-height: 1.35; }
 
 /* ---- Escena 4: enlace hacia la guía ---- */
 .cuento-enlace-guia {
@@ -2312,30 +2251,6 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   font-weight: 700;
   font-size: 0.86rem;
 }
-
-/* ---- Escena 5: el río (antes / después) ---- */
-.rio-escenario {
-  position: relative;
-  height: 120px;
-  max-width: 480px;
-  margin: 0 auto 16px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-.rio-capa {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.8s ease;
-}
-.rio-capa img { width: 60px; }
-.rio-capa-sucio { background: linear-gradient(160deg, #c9d18a, #8a9c5c); }
-.rio-capa-limpio { background: linear-gradient(160deg, var(--ocean-light), var(--ocean)); opacity: 0; }
-.rio-escenario.limpio .rio-capa-sucio { opacity: 0; }
-.rio-escenario.limpio .rio-capa-limpio { opacity: 1; }
-.rio-toggle-btn { display: flex; margin: 0 auto; }
 
 /* ---- Paginador del cuento ---- */
 .cuento-pager {

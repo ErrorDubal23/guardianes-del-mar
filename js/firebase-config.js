@@ -31,12 +31,12 @@
 // 6. Reemplaza los valores de aquí abajo por los tuyos y guarda este archivo.
 
 window.firebaseConfig = {
-  apiKey: 'TU_API_KEY_AQUI',
-  authDomain: 'TU_PROYECTO.firebaseapp.com',
-  projectId: 'TU_PROYECTO',
-  storageBucket: 'TU_PROYECTO.appspot.com',
-  messagingSenderId: 'TU_SENDER_ID',
-  appId: 'TU_APP_ID',
+  apiKey: 'AIzaSyDT9sHL0adshl5QfBY4x_evtpYP0av_BZY',
+  authDomain: 'guardianes-del-mar.firebaseapp.com',
+  projectId: 'guardianes-del-mar',
+  storageBucket: 'guardianes-del-mar.firebasestorage.app',
+  messagingSenderId: '185987577998',
+  appId: '1:185987577998:web:110d705a629b31dd98f1df',
 };
 
 window.firebaseListo = window.firebaseConfig.apiKey !== 'TU_API_KEY_AQUI';

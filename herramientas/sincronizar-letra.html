@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sincronizar letra — Guardianes del Mar</title>
+<style>
+  :root {
+    --azul: #0e7490;
+    --azul-osc: #075a72;
+    --verde: #16a34a;
+    --fondo: #f0f9ff;
+    --texto: #0f172a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    padding: 1.5rem;
+  }
+  h1 { color: var(--azul-osc); font-size: 1.4rem; margin-bottom: 0.25rem; }
+  p.ayuda { color: #334155; max-width: 60ch; line-height: 1.5; }
+  .panel {
+    background: white;
+    border-radius: 14px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 1.25rem;
+  }
+  .controles-audio { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  button {
+    font: inherit;
+    border: none;
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    cursor: pointer;
+    background: var(--azul);
+    color: white;
+    transition: transform 0.1s ease, background 0.2s ease;
+  }
+  button:hover { background: var(--azul-osc); }
+  button:active { transform: scale(0.96); }
+  button.secundario { background: #e2e8f0; color: #0f172a; }
+  button.secundario:hover { background: #cbd5e1; }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  #tiempoActual { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--azul-osc); }
+  .velocidad label { margin-right: 0.4rem; color: #334155; }
+  #marcarBtn {
+    background: var(--verde);
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    font-weight: 700;
+  }
+  #marcarBtn:hover { background: #15803d; }
+  .linea-actual {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #ecfeff;
+    border: 2px dashed var(--azul);
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--azul-osc);
+    min-height: 1.6em;
+  }
+  .lista { max-height: 340px; overflow-y: auto; }
+  .linea {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  .linea.marcada { background: #f0fdf4; color: #166534; }
+  .linea.actual-resaltada { background: #fef9c3; font-weight: 700; }
+  .linea .tiempo { font-variant-numeric: tabular-nums; color: #64748b; white-space: nowrap; }
+  .linea.marcada .tiempo { color: #16a34a; font-weight: 600; }
+  textarea {
+    width: 100%;
+    min-height: 260px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    padding: 0.75rem;
+  }
+  .fila-final { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.75rem; }
+  .offset { display: flex; align-items: center; gap: 0.4rem; color: #334155; }
+  .offset input { width: 70px; padding: 0.3rem; border-radius: 6px; border: 1px solid #cbd5e1; }
+  .aviso { color: #b45309; font-size: 0.85rem; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<h1>🎵 Sincronizar letra con el audio</h1>
+<p class="ayuda">
+  Herramienta interna para calcular a qué segundo empieza cada línea de la canción.
+  Dale a <strong>Reproducir</strong>, escucha, y pulsa <strong>MARCAR</strong> (o la barra espaciadora)
+  justo cuando empiece a cantarse cada línea resaltada. Al terminar, copia el código generado
+  y pégalo en <code>js/home.js</code> (o mándamelo a mí y yo lo actualizo).
+</p>
+
+<div class="panel">
+  <audio id="audio" src="../audio/cancion.mp3" preload="auto"></audio>
+  <div class="controles-audio">
+    <button id="playBtn">▶ Reproducir</button>
+    <button id="atras5" class="secundario">« 5s</button>
+    <span id="tiempoActual">0.00s</span>
+    <span class="velocidad">
+      <label for="velocidad">Velocidad</label>
+      <select id="velocidad">
+        <option value="1">1x (normal)</option>
+        <option value="0.75">0.75x</option>
+        <option value="0.5">0.5x (más fácil)</option>
+      </select>
+    </span>
+    <div class="offset">
+      <label for="offsetInput">Ajuste por reacción (ms):</label>
+      <input type="number" id="offsetInput" value="-200" step="50">
+    </div>
+  </div>
+
+  <div class="linea-actual" id="lineaActual">Pulsa Reproducir para empezar…</div>
+
+  <div class="fila-final">
+    <button id="marcarBtn">⏱ MARCAR (espacio)</button>
+    <button id="deshacerBtn" class="secundario">↩ Deshacer última</button>
+    <button id="reiniciarBtn" class="secundario">🔄 Reiniciar todo</button>
+  </div>
+  <p class="aviso" id="aviso"></p>
+</div>
+
+<div class="panel">
+  <h2 style="margin-top:0;color:var(--azul-osc);font-size:1.1rem;">Progreso</h2>
+  <div class="lista" id="lista"></div>
+</div>
+
+<div class="panel" id="panelResultado" style="display:none;">
+  <h2 style="margin-top:0;color:var(--azul-osc);font-size:1.1rem;">Código generado (para js/home.js)</h2>
+  <textarea id="resultado" readonly></textarea>
+  <div class="fila-final">
+    <button id="copiarBtn">📋 Copiar código</button>
+  </div>
+</div>
+
+<script>
+  // Mismo orden y textos que LETRA_CANCION en js/home.js
+  const TEXTOS = [
+    'Somos amigos del mar,',
+    '¡Lo vamos a cuidar!',
+    'Con amor y con alegría,',
+    '¡Lo protegemos cada día!',
+    'Reciclamos el cartón,',
+    'Las botellas al contenedor.',
+    'Si la playa está limpita,',
+    '¡Sonríe la tortuguita!',
+    'Elizabeth va a ayudar,',
+    'Grace Elena va a limpiar.',
+    'María Victoria también,',
+    '¡Abigail lo hace muy bien!',
+    'Matías recoge aquí,',
+    'Kilyan dice: ¡Sí, sí, sí!',
+    'Todos juntos a cantar,',
+    '¡Nuestro mar vamos a cuidar!',
+    '¡Mar Caribe, limpio y azul!',
+    '¡Lo cuidamos tú y yo!',
+    'Los corales brillarán,',
+    '¡Y los peces nadarán!',
+    '¡Mar Caribe, limpio y azul!',
+    '¡Lo cuidamos con amor!',
+    'Guardianes vamos a ser,',
+    '¡Hoy, mañana y siempre también!',
+    '¡Mar Caribe, limpio y azul!',
+    '¡Lo cuidamos tú y yo!',
+    'Los corales brillarán,',
+    '¡Y los peces nadarán!',
+    '¡Mar Caribe, limpio y azul!',
+    '¡Lo cuidamos con amor!',
+    'Guardianes vamos a ser,',
+    '¡Hoy, mañana y siempre también!',
+    '¡Yo cuido el Mar Caribe!',
+  ];
+
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('playBtn');
+  const atras5 = document.getElementById('atras5');
+  const tiempoActual = document.getElementById('tiempoActual');
+  const velocidad = document.getElementById('velocidad');
+  const offsetInput = document.getElementById('offsetInput');
+  const lineaActual = document.getElementById('lineaActual');
+  const marcarBtn = document.getElementById('marcarBtn');
+  const deshacerBtn = document.getElementById('deshacerBtn');
+  const reiniciarBtn = document.getElementById('reiniciarBtn');
+  const lista = document.getElementById('lista');
+  const aviso = document.getElementById('aviso');
+  const panelResultado = document.getElementById('panelResultado');
+  const resultado = document.getElementById('resultado');
+  const copiarBtn = document.getElementById('copiarBtn');
+
+  const STORAGE_KEY = 'sincronizarLetra_marcas';
+  let marcas = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+  function indiceSiguiente() { return marcas.length; }
+
+  function renderLista() {
+    lista.innerHTML = '';
+    TEXTOS.forEach((texto, i) => {
+      const div = document.createElement('div');
+      const marcada = i < marcas.length;
+      div.className = 'linea' + (marcada ? ' marcada' : '') + (i === indiceSiguiente() ? ' actual-resaltada' : '');
+      const tiempoTxt = marcada ? (marcas[i] / 1000).toFixed(2) + 's' : '—';
+      div.innerHTML = `<span>${i + 1}. ${texto}</span><span class="tiempo">${tiempoTxt}</span>`;
+      lista.appendChild(div);
+    });
+    if (indiceSiguiente() < TEXTOS.length) {
+      lineaActual.textContent = `Línea ${indiceSiguiente() + 1}: "${TEXTOS[indiceSiguiente()]}"`;
+    } else {
+      lineaActual.textContent = '¡Todas las líneas marcadas! Genera el código abajo.';
+      generarCodigo();
+    }
+    marcarBtn.disabled = indiceSiguiente() >= TEXTOS.length;
+  }
+
+  function guardar() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(marcas));
+  }
+
+  function marcar() {
+    if (indiceSiguiente() >= TEXTOS.length) return;
+    const offset = parseInt(offsetInput.value, 10) || 0;
+    let ms = Math.max(0, Math.round(audio.currentTime * 1000) + offset);
+    marcas.push(ms);
+    guardar();
+    renderLista();
+  }
+
+  function deshacer() {
+    marcas.pop();
+    guardar();
+    panelResultado.style.display = 'none';
+    renderLista();
+  }
+
+  function reiniciar() {
+    if (!confirm('¿Borrar todas las marcas y empezar de nuevo?')) return;
+    marcas = [];
+    guardar();
+    panelResultado.style.display = 'none';
+    renderLista();
+  }
+
+  function generarCodigo() {
+    const lineasCodigo = TEXTOS.map((texto, i) => {
+      const t = marcas[i] ?? 0;
+      const escapado = texto.replace(/'/g, "\\'");
+      return `  { texto: '${escapado}', inicio: ${t} },`;
+    });
+    resultado.value = 'const LETRA_CANCION = [\n' + lineasCodigo.join('\n') + '\n];';
+    panelResultado.style.display = 'block';
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (audio.paused) { audio.play(); } else { audio.pause(); }
+  });
+  audio.addEventListener('play', () => { playBtn.textContent = '⏸ Pausar'; });
+  audio.addEventListener('pause', () => { playBtn.textContent = '▶ Reproducir'; });
+  audio.addEventListener('timeupdate', () => {
+    tiempoActual.textContent = audio.currentTime.toFixed(2) + 's';
+  });
+  atras5.addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 5); });
+  velocidad.addEventListener('change', () => { audio.playbackRate = parseFloat(velocidad.value); });
+
+  marcarBtn.addEventListener('click', marcar);
+  deshacerBtn.addEventListener('click', deshacer);
+  reiniciarBtn.addEventListener('click', reiniciar);
+  copiarBtn.addEventListener('click', () => {
+    resultado.select();
+    navigator.clipboard.writeText(resultado.value).then(() => {
+      aviso.textContent = '¡Código copiado! Pégalo en js/home.js.';
+      setTimeout(() => { aviso.textContent = ''; }, 3000);
+    }).catch(() => {
+      aviso.textContent = 'No se pudo copiar automáticamente: selecciona el texto y usa Ctrl+C.';
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
+      e.preventDefault();
+      marcar();
+    }
+  });
+
+  renderLista();
+</script>
+
+</body>
+</html>

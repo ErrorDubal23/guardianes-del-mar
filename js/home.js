@@ -21,31 +21,22 @@ function initAdoptaTeaser() {
     : 'Empieza tu colección';
 }
 
-/* ---------- Video educativo (YouTube) ----------
-   YouTube no permite incrustar su reproductor cuando la página se abre
-   como archivo local (file://): exige un sitio real (http/https). Si
-   detectamos ese caso, abrimos el video en una pestaña nueva de YouTube
-   en vez de mostrar el error del reproductor. Si el sitio ya está
-   alojado en un servidor, el video se reproduce incrustado normalmente. */
+/* ---------- Video: Los Guardianes del Mar Caribe (local) ----------
+   Toca la miniatura para reemplazarla por el reproductor de video real. */
 function initVideo() {
   const marco = document.getElementById('videoMarco');
   const overlay = document.getElementById('videoOverlayBoton');
   if (!marco || !overlay) return;
 
-  const videoId = marco.dataset.videoId;
-
   overlay.addEventListener('click', () => {
-    if (window.location.protocol === 'file:') {
-      window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank', 'noopener');
-      return;
-    }
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    iframe.title = 'Video educativo - Guardianes del Mar';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen = true;
+    const video = document.createElement('video');
+    video.src = marco.dataset.videoSrc;
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.setAttribute('title', 'Los Guardianes del Mar Caribe, la película');
     marco.innerHTML = '';
-    marco.appendChild(iframe);
+    marco.appendChild(video);
   });
 }
 
@@ -137,39 +128,41 @@ function crearVisualizadorAudio(audio, { barras, rayos, ventana }) {
 
 /* ---------- Letra de "Los Guardianes del Mar Caribe" (sincronizada por tiempo real) ---------- */
 const LETRA_CANCION = [
-  { texto: 'Somos amigos del mar,', inicio: 8000 },
-  { texto: '¡Lo vamos a cuidar!', inicio: 12000 },
-  { texto: 'Con amor y con alegría,', inicio: 16000 },
-  { texto: '¡Lo protegemos cada día!', inicio: 24000 },
-  { texto: 'Reciclamos el cartón,', inicio: 32000 },
-  { texto: 'Las botellas al contenedor.', inicio: 36000 },
-  { texto: 'Si la playa está limpita,', inicio: 40000 },
-  { texto: '¡Sonríe la tortuguita!', inicio: 44000 },
-  { texto: 'Elizabeth va a ayudar,', inicio: 48000 },
-  { texto: 'Grace Elena va a limpiar.', inicio: 52000 },
-  { texto: 'María Victoria también,', inicio: 56000 },
-  { texto: '¡Abigail lo hace muy bien!', inicio: 60000 },
-  { texto: 'Matías recoge aquí,', inicio: 64000 },
-  { texto: 'Kilyan dice: ¡Sí, sí, sí!', inicio: 68000 },
-  { texto: 'Todos juntos a cantar,', inicio: 72000 },
-  { texto: '¡Nuestro mar vamos a cuidar!', inicio: 76000 },
-  { texto: '¡Mar Caribe, limpio y azul!', inicio: 80000 },
-  { texto: '¡Lo cuidamos tú y yo!', inicio: 84000 },
-  { texto: 'Los corales brillarán,', inicio: 88000 },
-  { texto: '¡Y los peces nadarán!', inicio: 92000 },
-  { texto: '¡Mar Caribe, limpio y azul!', inicio: 96000 },
-  { texto: '¡Lo cuidamos con amor!', inicio: 100000 },
-  { texto: 'Guardianes vamos a ser,', inicio: 104000 },
-  { texto: '¡Hoy, mañana y siempre también!', inicio: 108000 },
-  { texto: '¡Mar Caribe, limpio y azul!', inicio: 112000 },
-  { texto: '¡Lo cuidamos tú y yo!', inicio: 116000 },
-  { texto: 'Los corales brillarán,', inicio: 120000 },
-  { texto: '¡Y los peces nadarán!', inicio: 124000 },
-  { texto: '¡Mar Caribe, limpio y azul!', inicio: 128000 },
-  { texto: '¡Lo cuidamos con amor!', inicio: 132000 },
-  { texto: 'Guardianes vamos a ser,', inicio: 136000 },
-  { texto: '¡Hoy, mañana y siempre también!', inicio: 140000 },
-  { texto: '¡Yo cuido el Mar Caribe!', inicio: 144000 },
+  { texto: '🎵 🎶 🎵', inicio: 0 },
+  { texto: 'Somos amigos del mar,', inicio: 9678 },
+  { texto: '¡Lo vamos a cuidar!', inicio: 11574 },
+  { texto: 'Con amor y con alegría,', inicio: 15255 },
+  { texto: '¡Lo protegemos cada día!', inicio: 18775 },
+  { texto: 'Reciclamos el cartón,', inicio: 21746 },
+  { texto: 'Las botellas al contenedor.', inicio: 24763 },
+  { texto: 'Si la playa está limpita,', inicio: 27605 },
+  { texto: '¡Sonríe la tortuguita!', inicio: 31079 },
+  { texto: 'Elizabeth va a ayudar,', inicio: 34305 },
+  { texto: 'Grace Elena va a limpiar.', inicio: 36820 },
+  { texto: 'María Victoria también,', inicio: 40160 },
+  { texto: '¡Abigail lo hace muy bien!', inicio: 43522 },
+  { texto: 'Matías recoge aquí,', inicio: 47274 },
+  { texto: 'Kilyan dice: ¡Sí, sí, sí!', inicio: 48945 },
+  { texto: 'Todos juntos a cantar,', inicio: 52540 },
+  { texto: '¡Nuestro mar vamos a cuidar!', inicio: 55275 },
+  { texto: '¡Mar Caribe, limpio y azul!', inicio: 60587 },
+  { texto: '¡Lo cuidamos tú y yo!', inicio: 63159 },
+  { texto: 'Los corales brillarán,', inicio: 66278 },
+  { texto: '¡Y los peces nadarán!', inicio: 68957 },
+  { texto: '¡Mar Caribe, limpio y azul!', inicio: 72876 },
+  { texto: '¡Lo cuidamos con amor!', inicio: 75715 },
+  { texto: 'Guardianes vamos a ser,', inicio: 78598 },
+  { texto: '¡Hoy, mañana y siempre también!', inicio: 81497 },
+  { texto: '🎵 🎶 🎵', inicio: 85500 },
+  { texto: '¡Mar Caribe, limpio y azul!', inicio: 117205 },
+  { texto: '¡Lo cuidamos tú y yo!', inicio: 119719 },
+  { texto: 'Los corales brillarán,', inicio: 122929 },
+  { texto: '¡Y los peces nadarán!', inicio: 126080 },
+  { texto: '¡Mar Caribe, limpio y azul!', inicio: 129553 },
+  { texto: '¡Lo cuidamos con amor!', inicio: 132395 },
+  { texto: 'Guardianes vamos a ser,', inicio: 135705 },
+  { texto: '¡Hoy, mañana y siempre también!', inicio: 138649 },
+  { texto: '¡Yo cuido el Mar Caribe!', inicio: 142452 },
 ];
 
 function initLetraSincronizada(audio) {
