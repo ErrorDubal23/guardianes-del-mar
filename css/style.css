@@ -32,6 +32,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Evita que la barra de navegación fija tape el destino de cualquier enlace ancla (#id) */
+[id] {
+  scroll-margin-top: calc(var(--nav-height) + 14px);
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -239,6 +244,9 @@ section {
   align-items: center;
   gap: 10px;
 }
+@media (min-width: 860px) {
+  .topnav-inner { max-width: 1240px; }
+}
 .marca {
   display: flex;
   align-items: center;
@@ -248,8 +256,9 @@ section {
   font-weight: 700;
   color: var(--ocean-deep);
   font-size: 1.05rem;
+  white-space: nowrap;
 }
-.marca img { width: 34px; height: 34px; }
+.marca img { width: 46px; height: 46px; }
 
 .topnav-acciones {
   display: flex;
@@ -324,6 +333,7 @@ section {
     border-top: none;
     padding: 10px 16px;
     border-radius: 999px;
+    white-space: nowrap;
   }
   .topnav-links li a.activa {
     background: var(--ocean-pale);
@@ -534,7 +544,9 @@ section {
 }
 .juego-card {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 32px;
   padding: 40px 24px 28px;
   text-align: center;
@@ -570,7 +582,9 @@ section {
   border-radius: 999px;
 }
 .juego-card img {
-  width: 108px;
+  width: auto;
+  height: 78px;
+  object-fit: contain;
   margin: 6px auto 14px;
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
   position: relative;
@@ -586,7 +600,7 @@ section {
   font-weight: 800;
   padding: 12px 22px;
   border-radius: 999px;
-  margin-top: 18px;
+  margin-top: auto;
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
   position: relative;
 }
@@ -1626,9 +1640,9 @@ canvas#diplomaCanvas {
 
 .memoria-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  max-width: 420px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  max-width: 480px;
   margin: 0 auto 20px;
 }
 .memoria-carta {
@@ -1863,42 +1877,136 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   margin: 0 auto 6px;
   text-align: center;
 }
-/* ---- Carrusel de consejos: tarjetas que se deslizan ---- */
-.carrusel-envoltura {
+/* ---- Mini-menú de navegación rápida ---- */
+.guia-mapa {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  max-width: 920px;
-  margin: 0 auto;
-}
-.consejo-carrusel {
-  display: flex;
-  gap: 16px;
-  flex: 1;
-  min-width: 0;
+  gap: 10px;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding: 0 8px;
-  padding: 10px 8px 26px;
+  padding: 4px 20px 10px;
+  margin: 0 auto 4px;
+  max-width: 920px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
-.consejo-carrusel::-webkit-scrollbar { display: none; }
-
-.consejo-card {
-  scroll-snap-align: center;
-  flex: 0 0 auto;
-  width: 74vw;
-  max-width: 250px;
+.guia-mapa::-webkit-scrollbar { display: none; }
+.mapa-pildora {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 999px;
   background: white;
-  border-radius: var(--radius-lg);
-  padding: 26px 20px;
-  text-align: center;
   box-shadow: var(--shadow-soft);
+  color: var(--ocean-deep);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
-@media (min-width: 700px) {
-  .consejo-card { width: 260px; }
+.mapa-pildora:active { transform: scale(0.95); }
+.mapa-pildora.activa { background: var(--ocean-deep); color: white; }
+
+/* ---- Lista de hábitos marcables (con progreso guardado) ---- */
+.habitos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto;
 }
+.habito-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.habito-item:active { transform: scale(0.98); }
+.habito-item.completado { box-shadow: 0 0 0 2px var(--leaf), var(--shadow-soft); }
+.habito-check {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.habito-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+.habito-icono svg { width: 24px; height: 24px; }
+.habito-texto { flex: 1; min-width: 0; }
+.habito-titulo {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--ocean-deep);
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+}
+.habito-item.completado .habito-titulo { text-decoration: line-through; text-decoration-color: var(--leaf); }
+.habito-desc { display: block; font-size: 0.85rem; color: #4a6b74; line-height: 1.4; }
+.habito-marca {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--ocean-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.habito-item.completado .habito-marca { background: var(--leaf); border-color: var(--leaf); color: white; }
+
+.habitos-progreso { max-width: 640px; margin: 18px auto 0; }
+.habitos-barra {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--ocean-pale);
+  overflow: hidden;
+}
+.habitos-barra-relleno {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--leaf), var(--ocean-light));
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.habitos-progreso-texto {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ocean-deep);
+  margin: 8px 0 0;
+}
+.resumen-habitos {
+  max-width: 480px;
+  margin: 0 auto 20px;
+  text-align: center;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  box-shadow: var(--shadow-soft);
+  font-weight: 700;
+  color: var(--ocean-deep);
+  border: 2px solid transparent;
+}
+.resumen-habitos.completo {
+  border-color: var(--leaf);
+  color: var(--leaf);
+}
+
 .consejo-icono {
   width: 62px;
   height: 62px;
@@ -1917,17 +2025,6 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
 .consejo-color-4 { background: var(--coral); }
 .consejo-color-5 { background: #C77DBE; }
 .consejo-color-6 { background: #E08E3E; }
-
-.consejo-card h3 {
-  color: var(--ocean-deep);
-  font-size: 1.05rem;
-  margin-bottom: 6px;
-}
-.consejo-card p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: #4a6b74;
-}
 
 .carrusel-flecha {
   flex-shrink: 0;
@@ -1965,13 +2062,6 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   transform: scale(1.35);
 }
 
-.carrusel-ayuda {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #6a8a92;
-  margin: 0 0 22px;
-}
-
 /* ---- Secreto de marinero (dato curioso del agua de lastre) ---- */
 .curiosidad-marino {
   max-width: 780px;
@@ -1996,6 +2086,9 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
 }
 .curiosidad-marino img {
   width: 120px;
+}
+.curiosidad-marino .pagina-ilustracion-marco {
+  width: 150px;
   flex-shrink: 0;
 }
 .curiosidad-marino h3 {
@@ -2011,6 +2104,70 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   font-size: 0.92rem;
   color: var(--ocean-deep);
   font-weight: 700;
+}
+
+/* ---- Sala de prensa (recortes pegados con cinta) ---- */
+.prensa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 26px;
+  max-width: 940px;
+  margin: 24px auto 0;
+}
+.prensa-card {
+  display: block;
+  background: white;
+  border-radius: 6px;
+  padding: 20px 16px 16px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.prensa-card:nth-child(3n+1) { transform: rotate(-1.6deg); }
+.prensa-card:nth-child(3n+2) { transform: rotate(1.3deg); }
+.prensa-card:nth-child(3n+3) { transform: rotate(-0.8deg); }
+.prensa-card:hover, .prensa-card:focus-visible {
+  transform: scale(1.05) rotate(0deg);
+  box-shadow: 0 16px 28px rgba(11, 79, 108, 0.25);
+  z-index: 2;
+}
+.prensa-card::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 46px;
+  height: 20px;
+  background: rgba(255, 201, 60, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.prensa-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+  color: white;
+}
+.prensa-video .prensa-etiqueta { background: var(--coral); }
+.prensa-noticia .prensa-etiqueta { background: var(--ocean); }
+.prensa-sitio .prensa-etiqueta { background: var(--leaf); }
+.prensa-card h3 {
+  font-size: 1rem;
+  margin: 0 0 6px;
+  color: var(--ocean-deep);
+  line-height: 1.25;
+}
+.prensa-card p {
+  font-size: 0.85rem;
+  color: #4a6b74;
+  margin: 0;
+  line-height: 1.42;
 }
 
 /* ---- Promesas del Guardián (tarjeta para imprimir) ---- */
@@ -2076,6 +2233,8 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
   margin: 0 auto;
   text-align: center;
 }
+.guia-cta h2 { color: white; }
+.guia-cta .lead { color: rgba(255, 255, 255, 0.88); }
 .guia-cta-botones {
   display: flex;
   flex-wrap: wrap;
@@ -2086,10 +2245,10 @@ footer .footer-evento img { width: 26px; height: 26px; margin: 0; border-radius:
 
 @media print {
   .topnav, .burbujas, .peces-fondo, .divisor-ola, footer,
-  .btn-icono-escuchar, .guia-cta, audio { display: none !important; }
+  .btn-icono-escuchar, .guia-cta, .guia-mapa, audio { display: none !important; }
   body { background: white; padding-top: 0; }
   section { padding: 14px 0; }
-  .curiosidad-marino, .consejo-card, .promesas-card { box-shadow: none; border: 1.5px solid var(--ocean-pale); }
+  .curiosidad-marino, .habito-item, .promesas-card { box-shadow: none; border: 1.5px solid var(--ocean-pale); }
 }
 
 /* ===== Cuento interactivo (cuento.html) ===== */

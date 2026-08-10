@@ -14,6 +14,8 @@ const CARTAS = [
   { valor: 'saludo', img: 'tortuga_saludo.png', nombre: 'Marino saludando' },
   { valor: 'nadando', img: 'tortuga_nadando.png', nombre: 'Marino nadando' },
   { valor: 'saltando', img: 'tortuga_saltando.png', nombre: 'Marino saltando' },
+  { valor: 'señalando', img: 'tortuga_señalando.png', nombre: 'Marino señalando' },
+  { valor: 'marina', img: 'tortuga_marina.png', nombre: 'Tortuga marina' },
 ];
 
 let db = null;

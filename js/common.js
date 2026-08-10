@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initBurbujas();
   initEscuchar();
   initRevelado();
-  initCarruseles();
+  initHabitos();
+  initMapaGuia();
 });
 
 /* ---------- Menú de navegación ---------- */
@@ -178,7 +179,7 @@ function initRevelado() {
     '.problema-texto', '.guia-destacada',
     '.cuento-card', '.cancion-viva', '.video-feature',
     '.adopta-teaser', '.agradecimientos-texto', '.vuela-registro',
-    '.curiosidad-marino', '.promesas-card', '.carrusel-envoltura',
+    '.curiosidad-marino', '.promesas-card', '.habitos-lista',
   ].join(',');
 
   document.querySelectorAll(SELECTOR_INDIVIDUAL).forEach((el) => {
@@ -208,46 +209,76 @@ function initRevelado() {
   elementos.forEach((el) => observador.observe(el));
 }
 
-/* ---------- Carruseles de tarjetas (consejos deslizables) ---------- */
-function initCarruseles() {
-  document.querySelectorAll('.consejo-carrusel').forEach((carrusel) => {
-    const tarjetas = Array.from(carrusel.children);
-    if (!tarjetas.length) return;
+/* ---------- Hábitos marcables (guía del Guardián) ---------- */
+function initHabitos() {
+  const listas = document.querySelectorAll('.habitos-lista');
+  if (!listas.length) return;
 
-    document.querySelectorAll('.carrusel-flecha[data-target="' + carrusel.id + '"]').forEach((flecha) => {
-      flecha.addEventListener('click', () => {
-        const paso = tarjetas[0].getBoundingClientRect().width + 16;
-        carrusel.scrollBy({ left: paso * Number(flecha.dataset.dir), behavior: 'smooth' });
+  function actualizarResumenGlobal() {
+    const resumen = document.getElementById('resumenHabitos');
+    if (!resumen) return;
+    const todos = document.querySelectorAll('.habito-check');
+    const marcados = document.querySelectorAll('.habito-check:checked');
+    if (!todos.length) return;
+    const completo = marcados.length === todos.length;
+    resumen.style.display = 'block';
+    resumen.classList.toggle('completo', completo);
+    resumen.textContent = completo
+      ? `¡Felicidades! Ya practicas los ${todos.length} hábitos de esta guía.`
+      : `Llevas ${marcados.length} de ${todos.length} hábitos de Guardián. ¡Sigue así!`;
+  }
+
+  listas.forEach((lista) => {
+    const items = Array.from(lista.querySelectorAll('.habito-item'));
+    const progreso = document.querySelector('.habitos-progreso[data-for="' + lista.id + '"]');
+    const relleno = progreso ? progreso.querySelector('.habitos-barra-relleno') : null;
+    const texto = progreso ? progreso.querySelector('.habitos-progreso-texto') : null;
+
+    function actualizar() {
+      const marcados = items.filter((it) => it.classList.contains('completado')).length;
+      if (relleno) relleno.style.width = Math.round((marcados / items.length) * 100) + '%';
+      if (texto) texto.textContent = `${marcados} de ${items.length} hábitos marcados`;
+      actualizarResumenGlobal();
+    }
+
+    items.forEach((item) => {
+      const check = item.querySelector('.habito-check');
+      const clave = 'gm_habito_' + item.dataset.habito;
+      const guardado = localStorage.getItem(clave) === '1';
+      check.checked = guardado;
+      item.classList.toggle('completado', guardado);
+
+      check.addEventListener('change', () => {
+        item.classList.toggle('completado', check.checked);
+        localStorage.setItem(clave, check.checked ? '1' : '0');
+        actualizar();
       });
     });
 
-    const puntosWrap = document.querySelector('.carrusel-puntos[data-for="' + carrusel.id + '"]');
-    if (!puntosWrap) return;
-
-    tarjetas.forEach((_, i) => {
-      const punto = document.createElement('span');
-      punto.className = 'punto' + (i === 0 ? ' activo' : '');
-      puntosWrap.appendChild(punto);
-    });
-    const puntos = Array.from(puntosWrap.children);
-
-    const actualizarPuntos = () => {
-      const centro = carrusel.scrollLeft + carrusel.clientWidth / 2;
-      let masCercano = 0;
-      let distanciaMin = Infinity;
-      tarjetas.forEach((tarjeta, i) => {
-        const distancia = Math.abs((tarjeta.offsetLeft + tarjeta.offsetWidth / 2) - centro);
-        if (distancia < distanciaMin) { distanciaMin = distancia; masCercano = i; }
-      });
-      puntos.forEach((p, i) => p.classList.toggle('activo', i === masCercano));
-    };
-
-    let cuadro = null;
-    carrusel.addEventListener('scroll', () => {
-      if (cuadro) return;
-      cuadro = requestAnimationFrame(() => { actualizarPuntos(); cuadro = null; });
-    }, { passive: true });
+    actualizar();
   });
+}
+
+/* ---------- Mini-menú de navegación rápida (guía) ---------- */
+function initMapaGuia() {
+  const mapa = document.querySelector('.guia-mapa');
+  if (!mapa) return;
+
+  const pildoras = Array.from(mapa.querySelectorAll('.mapa-pildora'));
+  const secciones = pildoras
+    .map((p) => document.querySelector(p.getAttribute('href')))
+    .filter(Boolean);
+  if (!secciones.length) return;
+
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (!entrada.isIntersecting) return;
+      const indice = secciones.indexOf(entrada.target);
+      pildoras.forEach((p, i) => p.classList.toggle('activa', i === indice));
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  secciones.forEach((s) => observador.observe(s));
 }
 
 /* ---------- Identificador de dispositivo ---------- */
